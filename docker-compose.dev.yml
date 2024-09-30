@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  posgresqldb:
+    image: postgres:13
+    container_name: inventorydb
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+ 
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    volumes:
+      - ./data:/var/lib/postgresql/data
