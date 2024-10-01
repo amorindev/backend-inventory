@@ -1,16 +1,18 @@
 package main
 
 import (
+
 	"log"
 	"net/http"
 	"os"
+
 
 	// project
 	"example.com/product-postgesql-gin/db"
 	"example.com/product-postgesql-gin/internal/categories"
 	"example.com/product-postgesql-gin/internal/kardex"
 	"example.com/product-postgesql-gin/internal/product"
-	
+
 	//router
 	"github.com/gin-gonic/gin"
 
@@ -19,7 +21,7 @@ import (
 
 	// controller for database
 	_ "github.com/lib/pq"
-	
+
 	//swagger
 	_ "example.com/product-postgesql-gin/docs"
 	swaggerFiles "github.com/swaggo/files"
@@ -37,14 +39,32 @@ func main() {
 		log.Fatal(err)
 	}
 
-	db.DBConnection()
-
+	port := os.Getenv("PORT")
+	ginMode := os.Getenv("GIN_MODE")
 	mode := os.Getenv("BACK_ENV")
-	if mode == "" {
+
+	if port == "" || ginMode == "" || mode == ""{
+		log.Fatal("one or various enviroment variable is not set on main.go")
+	}
+
+	/* if mode == "" {
 		mode = "dev"
 	}
 
-	gin.SetMode("release") 
+	if ginMode == "" {
+		ginMode = "debug"
+	}
+	if port == "" {
+		port = "7000"
+	}
+ */
+
+	db.DBConnection()
+
+
+
+	// that you need to set this before creating the router
+	gin.SetMode(ginMode) 
 
 	r := gin.Default()
 
@@ -91,6 +111,6 @@ func main() {
 		//v1.DELETE("/products/:id", products.DeleteProductHandler)
 	}
 
-	r.Run(":7000")
+	r.Run(":"+port)
 
 }
