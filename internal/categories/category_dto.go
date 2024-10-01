@@ -2,8 +2,10 @@ package categories
 
 import (
 	"fmt"
-	"fullstack-inventory/backend_inventory/db"
+
 	"log"
+
+	"example.com/product-postgesql-gin/db"
 )
 
 

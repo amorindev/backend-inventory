@@ -3,8 +3,9 @@ package product
 import (
 	//"database/sql"
 	"fmt"
-	"fullstack-inventory/backend_inventory/db"
 	"log"
+
+	"example.com/product-postgesql-gin/db"
 )
 
 func GetProducts() ([]Product, error) {
