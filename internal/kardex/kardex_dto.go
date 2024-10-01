@@ -3,7 +3,7 @@ package kardex
 import (
 	"fmt"
 
-	"example.com/product-postgesql-gin/db"
+	"github.com/amorindev/backend-inventory/db"
 )
 
 func CreateKardexDto(k Kardex) (Kardex, error) {

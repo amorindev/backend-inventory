@@ -1,14 +1,15 @@
 package categories
 
 import (
-	"reflect"
 	"log"
+	"reflect"
 	"testing"
 
-	database "example.com/product-postgesql-gin/db"
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq" // Importar el controlador de PostgreSQL
+
+	database "github.com/amorindev/backend-inventory/db"
 )
 
 // test DB conection

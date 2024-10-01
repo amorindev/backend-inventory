@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"example.com/product-postgesql-gin/db"
+	"github.com/amorindev/backend-inventory/db"
 )
 
 func GetProducts() ([]Product, error) {

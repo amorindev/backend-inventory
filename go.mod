@@ -1,4 +1,4 @@
-module example.com/product-postgesql-gin
+module github.com/amorindev/backend-inventory
 
 go 1.22.6
 
