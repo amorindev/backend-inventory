@@ -27,6 +27,8 @@ CREATE TABLE product_kardex (
     prod_id INTEGER REFERENCES product(prod_id),
     kar_id INTEGER REFERENCES kardex(kar_id)
 );
+ALTER TABLE kardex
+ADD CONSTRAINT check_kardex_tipo CHECK (kar_tipo IN ('SALIDA', 'ENTRADA'));
 
 -- INSERT - TABLES WITHOUT FK
 INSERT INTO

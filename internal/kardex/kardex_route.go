@@ -51,11 +51,23 @@ func PostKardexHandler(c *gin.Context) {
 		return
 	}
 
-	k, err := CreateKardexDto(kardex)
+	if(kardex.Type != "SALIDA" && kardex.Type != "ENTRADA"){
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Please insert vaid type (ENTRADA/SALIDA)"})
+	}
+
+	k,kp,err := CreateKardexDto(kardex)
 	if err != nil {
 		msg := fmt.Sprintf("Post kardex bad request testt: %v", err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"message": msg})
 		return
+	} 
+	
+	if(len(kp)>0) {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Some products have insufficient stock",
+			"insufficient_stock_products": kp,
+		})	
+			return
 	}
 
 	c.JSON(http.StatusOK,k)
