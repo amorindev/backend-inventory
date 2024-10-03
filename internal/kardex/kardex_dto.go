@@ -8,11 +8,11 @@ import (
 
 func GetKardexDto() ([]Kardex, error) {
 	query := `SELECT 
-		k.kar_id, k.kar_desc, k.kar_tipo, k.kar_created_at,
+		k.kar_id, k.kar_desc, k.kar_type, k.kar_created_at,
 		pk.pro_kar_amount, p.prod_id, p.prod_name
-	FROM kardex k
-	JOIN product_kardex pk ON k.kar_id = pk.kar_id
-	JOIN product p ON pk.prod_id = p.prod_id
+	FROM tb_kardex k
+	JOIN tb_product_kardex pk ON k.kar_id = pk.kar_id
+	JOIN tb_product p ON pk.prod_id = p.prod_id
 	ORDER BY k.kar_created_at DESC`
 	
 	var kardexs []Kardex
@@ -64,7 +64,7 @@ func CreateKardexDto(k Kardex) (Kardex, []KardexProduct, error) {
 	if k.Type == "SALIDA" {
 		for _, kp := range k.Products {
 			var currentStock int
-			err := db.DB.QueryRow(`SELECT prod_stk FROM product WHERE prod_id = $1`, kp.ProductID).Scan(&currentStock)
+			err := db.DB.QueryRow(`SELECT prod_stk FROM tb_product WHERE prod_id = $1`, kp.ProductID).Scan(&currentStock)
 			if err != nil {
 				return Kardex{}, nil, fmt.Errorf("error fetching product stock on create kardex %v ", err)
 			}	
@@ -82,7 +82,7 @@ func CreateKardexDto(k Kardex) (Kardex, []KardexProduct, error) {
 
 	var kardexID int64
 
-	query := `INSERT INTO kardex (kar_desc, kar_tipo) VALUES ($1,$2) RETURNING kar_id`
+	query := `INSERT INTO tb_kardex (kar_desc, kar_type) VALUES ($1,$2) RETURNING kar_id`
 
 	err := db.DB.QueryRow(query,k.Description, k.Type).Scan(&kardexID)
 	if err != nil {
@@ -90,7 +90,7 @@ func CreateKardexDto(k Kardex) (Kardex, []KardexProduct, error) {
 	}
 
 	for _, kp := range k.Products {
-		query = `INSERT INTO product_kardex(prod_id,kar_id,pro_kar_amount) VALUES ($1,$2,$3)`
+		query = `INSERT INTO tb_product_kardex(prod_id,kar_id,pro_kar_amount) VALUES ($1,$2,$3)`
 		result, err := db.DB.Exec(query, kp.ProductID, kardexID, kp.Amount)
 		if err != nil {
 			return Kardex{},nil, fmt.Errorf("create kardex Err %v", err)

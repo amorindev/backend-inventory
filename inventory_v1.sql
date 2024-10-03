@@ -8,7 +8,7 @@ CREATE TABLE product (
         prod_id SERIAL PRIMARY KEY,
         prod_name VARCHAR(150) NOT NULL,
         prod_desc TEXT NOT NULL,
-        prod_discount SMALLINT DEFAULT 0, -- 10%, 20%
+        prod_discount SMALLINT NOT NULL DEFAULT 0, 
         prod_price NUMERIC(10, 2) NOT NULL,
         prod_stk INT NOT NULL CHECK (prod_stk >= 0),
         cat_id INTEGER REFERENCES category (cat_id)
@@ -17,7 +17,7 @@ CREATE TABLE product (
 CREATE TABLE kardex (
     kar_id SERIAL PRIMARY KEY,
     kar_desc VARCHAR(250) NOT NULL,
-    kar_tipo VARCHAR(60) NOT  NULL,                           --entrada o salida
+    kar_tipo VARCHAR(60) NOT  NULL,                           
     kar_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -27,8 +27,6 @@ CREATE TABLE product_kardex (
     prod_id INTEGER REFERENCES product(prod_id),
     kar_id INTEGER REFERENCES kardex(kar_id)
 );
-ALTER TABLE kardex
-ADD CONSTRAINT check_kardex_tipo CHECK (kar_tipo IN ('SALIDA', 'ENTRADA'));
 
 -- INSERT - TABLES WITHOUT FK
 INSERT INTO

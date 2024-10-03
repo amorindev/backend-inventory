@@ -14,7 +14,7 @@ func GetCategoriesDto() ([]Category, error) {
 
 
 
-	rows, err := db.DB.Query("SELECT cat_id, cat_name FROM category")
+	rows, err := db.DB.Query("SELECT cat_id, cat_name FROM tb_category")
 	if err != nil {
 		log.Fatal(err)
 	}

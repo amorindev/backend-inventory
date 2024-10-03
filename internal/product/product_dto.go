@@ -11,7 +11,7 @@ import (
 func GetProducts() ([]Product, error) {
 	var products []Product
 
-	query := `SELECT prod_id, prod_name, prod_desc, prod_discount, prod_price, prod_stk, cat_id FROM product`
+	query := `SELECT prod_id, prod_name, prod_desc, prod_discount, prod_price, prod_stk, cat_id FROM tb_product`
 	rows, err := db.DB.Query(query)
 	if err != nil {
 		log.Fatal(err)
@@ -39,7 +39,7 @@ func GetProducts() ([]Product, error) {
 func CreateProduct(p Product) (Product, error) {
 	var productID int64
 
-	query := `INSERT INTO product (prod_name, prod_desc, prod_discount, prod_price, prod_stk,cat_id)
+	query := `INSERT INTO tb_product (prod_name, prod_desc, prod_discount, prod_price, prod_stk,cat_id)
 				VALUES ($1,$2,$3,$4,$5,$6) RETURNING prod_id`
 
 	err := db.DB.QueryRow(query, p.ProductName, p.ProductDescription, p.ProductDiscount, p.ProductPrice, p.ProductStk, p.CatID).Scan(&productID)
@@ -55,7 +55,7 @@ func CreateProduct(p Product) (Product, error) {
 
 func UpdateProduct(id int64, p Product) error {
 
-	query := `UPDATE product SET prod_name = $1, prod_desc = $2, prod_discount = $3, prod_price =$4, prod_stk = $5, cat_id = $6 WHERE prod_id = $7`
+	query := `UPDATE tb_product SET prod_name = $1, prod_desc = $2, prod_discount = $3, prod_price =$4, prod_stk = $5, cat_id = $6 WHERE prod_id = $7`
 
 	result, err := db.DB.Exec(query, p.ProductName, p.ProductDescription, p.ProductDiscount, p.ProductPrice, p.ProductStk, p.CatID, id)
 
@@ -77,7 +77,7 @@ func UpdateProduct(id int64, p Product) error {
 }
 
 func DeleteProduct(productID int64) error {
-	query := `DELETE FROM product WHERE prod_id = $1`
+	query := `DELETE FROM tb_product WHERE prod_id = $1`
 
 	res, err := db.DB.Exec(query, productID)
 	if err != nil {
