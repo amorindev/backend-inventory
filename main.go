@@ -9,6 +9,7 @@ import (
 
 	//router
 	"github.com/amorindev/backend-inventory/db"
+	"github.com/amorindev/backend-inventory/internal/auth"
 	"github.com/amorindev/backend-inventory/internal/categories"
 	"github.com/amorindev/backend-inventory/internal/kardex"
 	"github.com/amorindev/backend-inventory/internal/product"
@@ -71,13 +72,16 @@ func main() {
 
 	v1 := r.Group("/api/v1")
 	{
+		if mode != "prod" {
+			v1.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+		}
 		v1.GET("/", func(c *gin.Context) {
 			c.JSON(http.StatusOK, gin.H{"message": "pong"})
 		})
 
-		if mode != "prod" {
-			v1.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-		}
+		// -------------------------  AUTH  --------------------------------
+		//v1.GET("/products", product.GetProductsHandler)
+		v1.POST("/authentication", auth.PostLoginHandler)
 
 		// ------------------------- CATEGORIES ------------------------------
 		v1.GET("/categories", categories.GetCategoriesHandler)

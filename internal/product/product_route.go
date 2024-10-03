@@ -48,7 +48,7 @@ func PostProductHandler(c *gin.Context) {
 	err := validateNewProduct.Struct(newProduct)
 	if err != nil {
 		errors := err.(validator.ValidationErrors)
-		msg := fmt.Sprintf("messsage post user: %v", errors)
+		msg := fmt.Sprintf("messsage post product: %v", errors)
 		c.JSON(http.StatusBadRequest, gin.H{"message": msg})
 		return
 	}
