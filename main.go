@@ -8,11 +8,7 @@ import (
 	// project
 
 	//router
-	"github.com/amorindev/backend-inventory/db"
-	"github.com/amorindev/backend-inventory/internal/auth"
-	"github.com/amorindev/backend-inventory/internal/categories"
-	"github.com/amorindev/backend-inventory/internal/kardex"
-	"github.com/amorindev/backend-inventory/internal/product"
+	
 	"github.com/gin-gonic/gin"
 
 	// enviroment variables

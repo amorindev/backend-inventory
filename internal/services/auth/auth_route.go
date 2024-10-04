@@ -8,6 +8,7 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
+
 func PostLoginHandler(c *gin.Context) {
 	var user UserEntity
 

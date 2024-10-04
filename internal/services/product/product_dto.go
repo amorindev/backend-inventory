@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/amorindev/backend-inventory/db"
+	"github.com/amorindev/backend-inventory/internal/db"
 )
 
 func GetProducts() ([]Product, error) {

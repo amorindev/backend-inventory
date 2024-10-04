@@ -82,8 +82,6 @@ VALUES
  ('Licuadora', 'Licuadora Oster® con control de textura BLST3B Niquelada + Accesorios', 0, 899.0, 10,7),
  ('Escritorio', 'Organizador Escritorio Oficina Papelería con Cajones SJ-159', 20, 19.90, 20,12);
 
-
-
 CREATE OR REPLACE FUNCTION kardex_update_prodcut_stock()
 RETURNS TRIGGER AS $$
 
@@ -93,12 +91,10 @@ BEGIN
     SELECT k.kar_type INTO kar_type
     FROM tb_kardex AS k
     WHERE k.kar_id = NEW.kar_id;
-
     IF kar_type = 'ENTRADA' THEN
         UPDATE tb_product
         SET prod_stk = prod_stk + NEW.pro_kar_amount 
         WHERE prod_id = NEW.prod_id;
-
     ELSEIF kar_type = 'SALIDA' THEN
         UPDATE tb_product
         SET prod_stk = prod_stk - NEW.pro_kar_amount
