@@ -1,29 +1,15 @@
 package categories
 
 import (
-	"log"
 	"reflect"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq" // Importar el controlador de PostgreSQL
 
-	database "github.com/amorindev/backend-inventory/db"
+	database "github.com/amorindev/backend-inventory/internal/db"
 )
 
-// test DB conection
-func TestDBConnection(t *testing.T){
-	err := godotenv.Load("./../../.env")
-	if err != nil {
-		log.Fatal(err)
-	}
-	database.DBConnection()
-	err = database.DB.Ping()
-	if err != nil {
-	  t.Fatalf("Ping to DB: %v", err)
-	}
-}
 
 func TestGetCategoriesDto(t *testing.T) {
 	db, mock, err := sqlmock.New()

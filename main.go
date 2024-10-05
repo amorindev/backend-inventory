@@ -8,7 +8,7 @@ import (
 	// project
 
 	//router
-	
+
 	"github.com/gin-gonic/gin"
 
 	// enviroment variables
@@ -19,6 +19,11 @@ import (
 
 	//swagger
 	_ "github.com/amorindev/backend-inventory/docs"
+	"github.com/amorindev/backend-inventory/internal/db"
+	"github.com/amorindev/backend-inventory/internal/services/auth"
+	"github.com/amorindev/backend-inventory/internal/services/categories"
+	"github.com/amorindev/backend-inventory/internal/services/kardex"
+	"github.com/amorindev/backend-inventory/internal/services/product"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -51,7 +56,7 @@ func main() {
 
 	r.Use(func(c *gin.Context) {
 		
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5174")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, Origin")
 		c.Writer.Header().Set("Access-Control-Expose-Headers", "Content-Length")

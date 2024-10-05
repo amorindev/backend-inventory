@@ -36,7 +36,7 @@ func GetProductsHandler(c *gin.Context) {
 // @Success      200 {object} Product
 // @Router       /products [post]
 func PostProductHandler(c *gin.Context) {
-	var newProduct Product
+	var newProduct ProductEntity
 
 	if err := c.ShouldBindJSON(&newProduct); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Post products bad request deserializar"})
@@ -62,6 +62,23 @@ func PostProductHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, p)
 }
 
+
+func ValidateProduct(p ProductEntity) (isValid bool, err error) {
+	if p.ProductName == "" || p.ProductDescription == ""{
+		return false, fmt.Errorf("product name or product description connot be empty")
+	}
+
+	if  p.ProductPrice <= 0 || p.ProductStk <= 0 {
+		return false, fmt.Errorf("product price or product stock must be assigned")
+	}
+	if p.ProductDiscount < 0 {
+		return false, fmt.Errorf("invalid product discount")
+	}
+	return true, nil
+}
+
+
+
 // PutProduct godoc
 // @Summary      Update product
 // @Description  Update a product by its ID
@@ -79,7 +96,7 @@ func PutProductHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid ID"})
 		return
 	}
-	var product Product
+	var product ProductEntity
 	err = c.ShouldBindJSON(&product)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Bad request put product deserializer"})

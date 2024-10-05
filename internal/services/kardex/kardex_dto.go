@@ -3,7 +3,7 @@ package kardex
 import (
 	"fmt"
 
-	"github.com/amorindev/backend-inventory/db"
+	"github.com/amorindev/backend-inventory/internal/db"
 )
 
 func GetKardexDto() ([]Kardex, error) {

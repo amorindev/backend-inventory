@@ -8,8 +8,8 @@ import (
 	"github.com/amorindev/backend-inventory/internal/db"
 )
 
-func GetProducts() ([]Product, error) {
-	var products []Product
+func GetProducts() ([]ProductEntity, error) {
+	var products []ProductEntity
 
 	query := `SELECT prod_id, prod_name, prod_desc, prod_discount, prod_price, prod_stk, cat_id FROM tb_product`
 	rows, err := db.DB.Query(query)
@@ -20,7 +20,7 @@ func GetProducts() ([]Product, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		var p Product
+		var p ProductEntity
 		err := rows.Scan(&p.ID, &p.ProductName, &p.ProductDescription, &p.ProductDiscount, &p.ProductPrice, &p.ProductStk, &p.CatID)
 
 		if err != nil {
@@ -36,7 +36,7 @@ func GetProducts() ([]Product, error) {
 	return products, nil
 }
 
-func CreateProduct(p Product) (Product, error) {
+func CreateProduct(p ProductEntity) (ProductEntity, error) {
 	var productID int64
 
 	query := `INSERT INTO tb_product (prod_name, prod_desc, prod_discount, prod_price, prod_stk,cat_id)
@@ -45,7 +45,7 @@ func CreateProduct(p Product) (Product, error) {
 	err := db.DB.QueryRow(query, p.ProductName, p.ProductDescription, p.ProductDiscount, p.ProductPrice, p.ProductStk, p.CatID).Scan(&productID)
 
 	if err != nil {
-		return Product{}, fmt.Errorf("created Product: %v", err)
+		return ProductEntity{}, fmt.Errorf("created Product: %v", err)
 	}
 
 	p.ID = productID
@@ -53,7 +53,7 @@ func CreateProduct(p Product) (Product, error) {
 	return p, nil
 }
 
-func UpdateProduct(id int64, p Product) error {
+func UpdateProduct(id int64, p ProductEntity) error {
 
 	query := `UPDATE tb_product SET prod_name = $1, prod_desc = $2, prod_discount = $3, prod_price =$4, prod_stk = $5, cat_id = $6 WHERE prod_id = $7`
 

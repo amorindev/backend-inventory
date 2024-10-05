@@ -1,6 +1,6 @@
 package product
 
-type Product struct {
+type ProductEntity struct {
 	ID                 int64   `json:"prod_id" db:"prod_id"`
 	ProductName        string  `json:"prod_name" validate:"required" db:"prod_name"`
 	ProductDescription string  `json:"prod_desc" validate:"required" db:"prod_desc"`
