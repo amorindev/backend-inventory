@@ -81,11 +81,11 @@ func main() {
 		})
 
 		// -------------------------  AUTH  --------------------------------
-		//v1.GET("/products", product.GetProductsHandler)
 		v1.POST("/authentication", auth.PostLoginHandler)
 
 		// ------------------------- CATEGORIES ------------------------------
 		v1.GET("/categories", categories.GetCategoriesHandler)
+		v1.POST("/categories", categories.PostCategoryHandler)
 
 		// -------------------------  PRODUCTS  --------------------------------
 		v1.GET("/products", product.GetProductsHandler)

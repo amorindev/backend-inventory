@@ -33,7 +33,7 @@ func TestGetCategoriesDto(t *testing.T) {
 	}
 
 	// Definimos lo que esperamos obtener
-	expected := []Category{
+	expected := []CategoryEntity{
 		{CatID: 1, CatName: "TECNOLOGÍA"},
 		{CatID: 7, CatName: "ELECTRODOMÉSTICOS"},
 	}
