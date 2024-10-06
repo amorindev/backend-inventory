@@ -48,3 +48,40 @@ func CreateCategoryDto(c CategoryEntity) (CategoryEntity, error) {
 	return c, nil
 }
 
+func UpdateCategoryDto(ctgId int64, c CategoryEntity) error {
+	query := `UPDATE tb_category SET cat_name = $1 WHERE cat_id = $2`
+	result, err := db.DB.Exec(query, c.CatName, ctgId)
+	if err != nil {
+	  return fmt.Errorf("update catefory Err: %v", err)
+	}
+	var rowsAffected int64
+	rowsAffected, err = result.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("rows affected Err %v", err)
+	}
+	if rowsAffected == 0 {
+		return fmt.Errorf("category not found")
+	}
+	return nil
+}
+
+func Deletecategory(ctgID int64) error {
+	query := `DELETE FROM tb_category WHERE cat_id = $1`
+
+	result, err := db.DB.Exec(query, ctgID)
+	if err != nil {
+	  return fmt.Errorf("delete category Err: %v", err)
+	}
+	
+	var rowsAffected int64
+	rowsAffected, err = result.RowsAffected()
+	if err != nil {
+	  return fmt.Errorf("category - Rows affected err %v",err)
+	}
+	if rowsAffected == 0 {
+		return fmt.Errorf("category not found with id %d", ctgID)
+	}
+	return nil
+}
+
+
