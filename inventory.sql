@@ -58,6 +58,27 @@ CREATE TABLE tb_product_kardex (
     kar_id INTEGER REFERENCES tb_kardex(kar_id)
 )
 
+INSERT INTO tb_user (user_email, user_pass) 
+VALUES
+('calidad@gmail.com', 'Calidad2024')
+
+-- First create user account
+INSERT INTO tb_company (com_user_id, com_name, com_website, com_address, com_phone, com_email, com_logo)
+VALUES 
+(1, 'Nombre de la Empresa', 'https://www.ejemplo.com', '123 Calle Ejemplo', '+1234567890', 'contacto@ejemplo.com', 'logo.png');
+
+
+INSERT INTO tb_provider (prov_name, prov_address, prov_email, prov_phone, com_user_id) VALUES
+('Distribuciones Alimenticias S.A.', 'Calle Principal 123, Ciudad Centro', 'contacto@distribuciones.com', '555-0123', 1),
+('Suministros de Oficina Ltda.', 'Avenida de la Libertad 456, Barrio Nuevo', 'info@suministros.com', '555-4567', 1),
+('Soluciones Informáticas S.R.L.', 'Calle Secundaria 789, Sector Industrial', 'soporte@solucionesinf.com', '555-7890', 1),
+('Materiales de Construcción El Roble', 'Avenida 10 de Agosto 321, Zona Industrial', 'ventas@elroble.com', '555-3456', 1),
+('Productos Químicos del Norte', 'Calle del Comercio 654, Polígono Norte', 'ventas@productosquimicos.com', '555-2345', 1),
+('Tecnología Avanzada S.A.C.', 'Calle San Martín 987, Parque Tecnológico', 'info@tecnologiaavanzada.com', '555-6789', 1),
+('Transporte y Logística Global', 'Carretera Nacional 202, Ciudad Empresarial', 'contacto@transporte.com', '555-8901', 1),
+('Servicios de Limpieza Eficaz', 'Calle 5 de Junio 543, Urbanización Jardines', 'info@limpiezaeficaz.com', '555-4321', 1),
+('Electrodomésticos y Más', 'Avenida La Paz 159, Plaza Comercial', 'ventas@electrodomesticos.com', '555-6780', 1),
+('Ropa y Accesorios Elegantes', 'Calle de la Moda 111, Centro Comercial', 'atencion@modaelegante.com', '555-9876', 1);
 
 INSERT INTO tb_category ("cat_name")
 VALUES
@@ -81,6 +102,7 @@ VALUES
  ('Escoba', 'Juego de Escoba Y Recogedor 2 en 1', 2, 18.0, 90,4),
  ('Licuadora', 'Licuadora Oster® con control de textura BLST3B Niquelada + Accesorios', 0, 899.0, 10,7),
  ('Escritorio', 'Organizador Escritorio Oficina Papelería con Cajones SJ-159', 20, 19.90, 20,12);
+
 
 CREATE OR REPLACE FUNCTION kardex_update_prodcut_stock()
 RETURNS TRIGGER AS $$
