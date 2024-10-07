@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+
 	"net/http"
 	"os"
 
@@ -22,8 +23,10 @@ import (
 	"github.com/amorindev/backend-inventory/internal/db"
 	"github.com/amorindev/backend-inventory/internal/services/auth"
 	"github.com/amorindev/backend-inventory/internal/services/categories"
+	"github.com/amorindev/backend-inventory/internal/services/company"
 	"github.com/amorindev/backend-inventory/internal/services/kardex"
 	"github.com/amorindev/backend-inventory/internal/services/product"
+	"github.com/amorindev/backend-inventory/internal/services/provider"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -56,7 +59,13 @@ func main() {
 
 	r.Use(func(c *gin.Context) {
 		
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5174")
+		origin := c.Request.Header.Get("Origin")
+    	if origin == "http://localhost:5174" || origin == "https://refers-epinions-contamination-omissions.trycloudflare.com" {
+        c.Writer.Header().Set("Access-Control-Allow-Origin", origin)
+    	}
+		//c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5174")
+		//c.Writer.Header().Set("Access-Control-Allow-Origin", "https://submitted-lock-returns-designated.trycloudflare.com")
+		
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, Origin")
 		c.Writer.Header().Set("Access-Control-Expose-Headers", "Content-Length")
@@ -84,6 +93,9 @@ func main() {
 		v1.POST("/authentication", auth.PostLoginHandler)
 
 		// ------------------------- CATEGORIES ------------------------------
+		v1.GET("/companies/:id", company.GetCompanyByIdHandler)
+
+		// ------------------------- CATEGORIES ------------------------------
 		v1.GET("/categories", categories.GetCategoriesHandler)
 		v1.POST("/categories", categories.PostCategoryHandler)
 
@@ -98,6 +110,10 @@ func main() {
 		v1.POST("/kardex", kardex.PostKardexHandler)
 		//v1.PUT("/products/:id", products.PutProductHandler)
 		//v1.DELETE("/products/:id", products.DeleteProductHandler)
+
+		// -------------------------  PROVIDERS  --------------------------------
+		v1.GET("/providers", provider.GETProvidersHandler)
+
 	}
 
 	r.Run(":"+port)
