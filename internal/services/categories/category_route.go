@@ -13,7 +13,7 @@ import (
 // @Description  Return the list of categories
 // @Tags         categories
 // @Produce      json
-// @Success      200 {array} Category
+// @Success      200 {array} CategoryEntity
 // @Router       /categories [get]
 func GetCategoriesHandler(c *gin.Context) {
 	ctgs, err := GetCategoriesDto()

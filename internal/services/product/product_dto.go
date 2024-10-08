@@ -1,7 +1,7 @@
 package product
 
 import (
-	//"database/sql"
+
 	"fmt"
 	"log"
 

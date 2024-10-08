@@ -14,7 +14,7 @@ import (
 // @Description  Return the list of products
 // @Tags         products
 // @Produce      json
-// @Success      200 {array} Product
+// @Success      200 {array} ProductCategoryEntity
 // @Router       /products [get]
 func GetProductsHandler(c *gin.Context) {
 	pro, err := GetProductsWithCategoryDto()
@@ -26,15 +26,6 @@ func GetProductsHandler(c *gin.Context) {
 }
 
 
-// PostProduct godoc
-// @Summary      Create product
-// @Description  Create a new product
-// @Tags         products
-// @Accept       json
-// @Produce      json
-// @Param        product body Product true "Product to be created"
-// @Success      200 {object} Product
-// @Router       /products [post]
 func PostProductHandler(c *gin.Context) {
 	var newProduct ProductEntity
 
@@ -78,17 +69,6 @@ func ValidateProduct(p ProductEntity) (isValid bool, err error) {
 }
 
 
-
-// PutProduct godoc
-// @Summary      Update product
-// @Description  Update a product by its ID
-// @Tags         products
-// @Accept       json
-// @Produce      json
-// @Param        id   path      int  true  "Product ID"
-// @Param        product body Product true "Product to be updated"
-// @Success      200 {object} Product
-// @Router       /products/{id} [put]
 func PutProductHandler(c *gin.Context) {
 	id := c.Param("id")
 	productId, err := strconv.Atoi(id)
@@ -122,13 +102,6 @@ func PutProductHandler(c *gin.Context) {
 }
 
 
-// DeleteProduct godoc
-// @Summary      Delete product
-// @Description  Delete a product by its ID
-// @Tags         products
-// @Param        id   path      int  true  "Product ID"
-// @Success      204  "Product successfully deleted"
-// @Router       /products/{id} [delete]
 func DeleteProductHandler(c *gin.Context) {
 	id := c.Param("id")
 	idProduct, err := strconv.Atoi(id)
