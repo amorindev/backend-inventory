@@ -9,13 +9,6 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-// GetProducts godoc
-// @Summary      Get all products
-// @Description  Return the list of products
-// @Tags         products
-// @Produce      json
-// @Success      200 {array} ProductCategoryEntity
-// @Router       /products [get]
 func GetProductsHandler(c *gin.Context) {
 	pro, err := GetProductsWithCategoryDto()
 	if err != nil {

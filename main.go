@@ -11,6 +11,7 @@ import (
 	//router
 
 	"github.com/gin-gonic/gin"
+	ginSwagger "github.com/swaggo/gin-swagger"
 
 	// enviroment variables
 	"github.com/joho/godotenv"
@@ -18,8 +19,6 @@ import (
 	// controller for database
 	_ "github.com/lib/pq"
 
-	//swagger
-	_ "github.com/amorindev/backend-inventory/docs"
 	"github.com/amorindev/backend-inventory/internal/cors"
 	"github.com/amorindev/backend-inventory/internal/db"
 	"github.com/amorindev/backend-inventory/internal/services/auth"
@@ -28,15 +27,8 @@ import (
 	"github.com/amorindev/backend-inventory/internal/services/kardex"
 	"github.com/amorindev/backend-inventory/internal/services/product"
 	"github.com/amorindev/backend-inventory/internal/services/provider"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @title Inventory api
-// @version 1.0
-// @description Api for an app of inventory
-// @host localhost:7000
-// @BasePath /v1
 func main() {
 	err := godotenv.Load()
 	if err != nil {
@@ -65,9 +57,7 @@ func main() {
 
 	v1 := r.Group("/api/v1")
 	{
-		if mode != "prod" {
-			v1.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-		}
+
 		v1.GET("/", func(c *gin.Context) {
 			c.JSON(http.StatusOK, gin.H{"message": "pong"})
 		})

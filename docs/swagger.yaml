@@ -1,0 +1,144 @@
+basePath: /v1
+definitions:
+  categories.CategoryEntity:
+    properties:
+      cat_id:
+        type: integer
+      cat_name:
+        type: string
+    required:
+    - cat_name
+    type: object
+  kardex.Kardex:
+    properties:
+      kardex_created_at:
+        type: string
+      kardex_description:
+        type: string
+      kardex_id:
+        type: integer
+      kardex_products:
+        items:
+          $ref: '#/definitions/kardex.KardexProduct'
+        type: array
+      kardex_type:
+        type: string
+    required:
+    - kardex_description
+    - kardex_products
+    - kardex_type
+    type: object
+  kardex.KardexProduct:
+    properties:
+      pro_kar_amount:
+        description: Cantidad movida en la
+        minimum: 0
+        type: integer
+      prod_id:
+        description: ID del producto
+        type: integer
+      prod_name:
+        type: string
+    type: object
+  product.CategoryEntity:
+    properties:
+      cat_id:
+        type: integer
+      cat_name:
+        type: string
+    required:
+    - cat_name
+    type: object
+  product.ProductCategoryEntity:
+    properties:
+      cat_id:
+        type: integer
+      category:
+        $ref: '#/definitions/product.CategoryEntity'
+      prod_desc:
+        type: string
+      prod_discount:
+        type: integer
+      prod_id:
+        type: integer
+      prod_name:
+        type: string
+      prod_price:
+        type: number
+      prod_stk:
+        type: integer
+    type: object
+host: localhost:7000
+info:
+  contact: {}
+  description: Api for an app of inventory
+  title: Inventory api
+  version: "1.0"
+paths:
+  /categories:
+    get:
+      description: Return the list of categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/categories.CategoryEntity'
+            type: array
+      summary: Get all categories
+      tags:
+      - categories
+  /kardex:
+    get:
+      description: Return the list of kardex entries
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/kardex.Kardex'
+            type: array
+      summary: Get all kardex entries
+      tags:
+      - kardex
+    post:
+      consumes:
+      - application/json
+      description: Create a new kardex
+      parameters:
+      - description: Kardex to be created
+        in: body
+        name: kardex
+        required: true
+        schema:
+          $ref: '#/definitions/kardex.Kardex'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/kardex.Kardex'
+      summary: Create kardex
+      tags:
+      - kardex
+  /products:
+    get:
+      description: Return the list of products
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/product.ProductCategoryEntity'
+            type: array
+      summary: Get all products
+      tags:
+      - products
+swagger: "2.0"

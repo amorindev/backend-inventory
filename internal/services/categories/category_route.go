@@ -8,13 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetCategories godoc
-// @Summary      Get all categories
-// @Description  Return the list of categories
-// @Tags         categories
-// @Produce      json
-// @Success      200 {array} CategoryEntity
-// @Router       /categories [get]
 func GetCategoriesHandler(c *gin.Context) {
 	ctgs, err := GetCategoriesDto()
 	if err != nil {

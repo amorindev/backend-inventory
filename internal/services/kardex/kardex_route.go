@@ -8,15 +8,6 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-// PostKardexHandler godoc
-// @Summary      Create kardex
-// @Description  Create a new kardex
-// @Tags         kardex
-// @Accept       json
-// @Produce      json
-// @Param        kardex body Kardex true "Kardex to be created"
-// @Success      200 {object} Kardex
-// @Router       /kardex [post]
 func GetKardexHandler(c *gin.Context) {
 	kardexes, err := GetKardexDto()
 	if err != nil {
@@ -26,13 +17,6 @@ func GetKardexHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, kardexes)
 }
 
-// GetKardexHandler godoc
-// @Summary      Get all kardex entries
-// @Description  Return the list of kardex entries
-// @Tags         kardex
-// @Produce      json
-// @Success      200 {array} Kardex
-// @Router       /kardex [get]
 func PostKardexHandler(c *gin.Context) {
 	var kardex Kardex
 
