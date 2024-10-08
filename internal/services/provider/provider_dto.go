@@ -32,3 +32,18 @@ func GetProviders() ([]ProviderEntity, error) {
 	}
 	return providers, nil
 }
+
+
+func CreateProvider(p ProviderEntity) (ProviderEntity,error) {
+	var providerId int64
+
+	query := `INSERT INTO tb_provider (prov_name, prov_address, prov_email, prov_phone, com_user_id) 
+              VALUES ($1, $2, $3, $4, $5) RETURNING prov_id`
+
+	err := db.DB.QueryRow(query, p.ProvName, p.ProvAddress, p.ProvEmail, p.ProvPhone, p.ComID).Scan(&providerId)
+	if err != nil {
+	  return ProviderEntity{}, fmt.Errorf("create provider err: %v", err)
+	}
+	p.ProvID = providerId
+	return p,nil
+}

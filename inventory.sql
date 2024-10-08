@@ -65,7 +65,7 @@ VALUES
 -- First create user account
 INSERT INTO tb_company (com_user_id, com_name, com_website, com_address, com_phone, com_email, com_logo)
 VALUES 
-(1, 'Nombre de la Empresa', 'https://www.ejemplo.com', '123 Calle Ejemplo', '+1234567890', 'contacto@ejemplo.com', 'logo.png');
+(1, 'Limdes - Chimbote', 'https://www.limdes.com', 'Av. Avenida Industrial', '923456789', 'limbes@gmail.com', 'logo.png');
 
 
 INSERT INTO tb_provider (prov_name, prov_address, prov_email, prov_phone, com_user_id) VALUES

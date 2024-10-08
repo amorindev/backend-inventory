@@ -113,6 +113,7 @@ func main() {
 
 		// -------------------------  PROVIDERS  --------------------------------
 		v1.GET("/providers", provider.GETProvidersHandler)
+		v1.POST("/providers", provider.POSTProviderHandler)
 
 	}
 
