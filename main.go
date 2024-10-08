@@ -60,7 +60,7 @@ func main() {
 	r.Use(func(c *gin.Context) {
 		
 		origin := c.Request.Header.Get("Origin")
-    	if origin == "http://localhost:5174" || origin == "https://refers-epinions-contamination-omissions.trycloudflare.com" {
+    	if origin == "http://localhost:5173" || origin == "https://refers-epinions-contamination-omissions.trycloudflare.com" {
         c.Writer.Header().Set("Access-Control-Allow-Origin", origin)
     	}
 		//c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5174")
