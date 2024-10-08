@@ -20,6 +20,7 @@ import (
 
 	//swagger
 	_ "github.com/amorindev/backend-inventory/docs"
+	"github.com/amorindev/backend-inventory/internal/cors"
 	"github.com/amorindev/backend-inventory/internal/db"
 	"github.com/amorindev/backend-inventory/internal/services/auth"
 	"github.com/amorindev/backend-inventory/internal/services/categories"
@@ -45,6 +46,7 @@ func main() {
 	port := os.Getenv("PORT")
 	ginMode := os.Getenv("GIN_MODE")
 	mode := os.Getenv("BACK_ENV")
+	corsenv := os.Getenv("CORS")
 
 	if port == "" || ginMode == "" || mode == ""{
 		log.Fatal("one or various enviroment variable is not set on main.go")
@@ -57,28 +59,9 @@ func main() {
 
 	r := gin.Default()
 
-	r.Use(func(c *gin.Context) {
-		
-		origin := c.Request.Header.Get("Origin")
-    	if origin == "http://localhost:5173" || origin == "https://refers-epinions-contamination-omissions.trycloudflare.com" {
-        c.Writer.Header().Set("Access-Control-Allow-Origin", origin)
-    	}
-		//c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5174")
-		//c.Writer.Header().Set("Access-Control-Allow-Origin", "https://submitted-lock-returns-designated.trycloudflare.com")
-		
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, Origin")
-		c.Writer.Header().Set("Access-Control-Expose-Headers", "Content-Length")
-		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-
-		// Manejo de preflight request (OPTIONS)
-		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(http.StatusNoContent)
-			return
-		}
-
-		c.Next()
-	})
+	if corsenv != "" {
+		r.Use(cors.CorsMiddleware(corsenv))
+	}
 
 	v1 := r.Group("/api/v1")
 	{
@@ -118,5 +101,4 @@ func main() {
 	}
 
 	r.Run(":"+port)
-
 }
