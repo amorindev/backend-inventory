@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-var DSN string
+
 var DB *sql.DB
 
 func DBConnection() {
@@ -22,7 +22,7 @@ func DBConnection() {
 	}
 
 	sqlString := "host=%s user=%s password=%s dbname=%s port=%s sslmode=require"
-	DSN = fmt.Sprintf(sqlString, dbHost, dbUser, dbPass, dbName, dbPort)
+	DSN := fmt.Sprintf(sqlString, dbHost, dbUser, dbPass, dbName, dbPort)
 
 	var err error
 	DB,err = sql.Open("postgres",DSN)

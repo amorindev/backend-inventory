@@ -17,7 +17,7 @@ import (
 // @Success      200 {array} Product
 // @Router       /products [get]
 func GetProductsHandler(c *gin.Context) {
-	pro, err := GetProducts()
+	pro, err := GetProductsWithCategoryDto()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Get Products bad Request"})
 		return

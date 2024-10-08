@@ -36,6 +36,41 @@ func GetProducts() ([]ProductEntity, error) {
 	return products, nil
 }
 
+func GetProductsWithCategoryDto()([]ProductCategoryEntity, error) {
+	var products []ProductCategoryEntity
+	query := `
+        SELECT p.prod_id, p.prod_name, p.prod_desc, p.prod_discount, p.prod_price, p.prod_stk, p.cat_id,
+               c.cat_id, c.cat_name
+        FROM tb_product p
+        JOIN tb_category c ON p.cat_id = c.cat_id
+    `
+
+    rows, err := db.DB.Query(query)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer rows.Close()
+
+    for rows.Next() {
+        var p ProductCategoryEntity
+        var c CategoryEntity
+
+        err := rows.Scan(&p.ID, &p.ProductName, &p.ProductDescription, &p.ProductDiscount, &p.ProductPrice, &p.ProductStk, &p.CatID, &c.CatID, &c.CatName)
+        if err != nil {
+            return nil, fmt.Errorf("get Product %v", err)
+        }
+
+        p.Category = c
+        products = append(products, p)
+    }
+
+    if err := rows.Err(); err != nil {
+        return nil, fmt.Errorf("get Product Err: %v", err)
+    }
+
+    return products, nil
+}
+
 func CreateProduct(p ProductEntity) (ProductEntity, error) {
 	var productID int64
 

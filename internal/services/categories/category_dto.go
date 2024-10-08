@@ -12,8 +12,6 @@ import (
 func GetCategoriesDto() ([]CategoryEntity, error) {
 	var categories []CategoryEntity
 
-
-
 	rows, err := db.DB.Query("SELECT cat_id, cat_name FROM tb_category")
 	if err != nil {
 		log.Fatal(err)
