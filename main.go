@@ -11,7 +11,6 @@ import (
 	//router
 
 	"github.com/gin-gonic/gin"
-	ginSwagger "github.com/swaggo/gin-swagger"
 
 	// enviroment variables
 	"github.com/joho/godotenv"
