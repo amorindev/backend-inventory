@@ -98,10 +98,12 @@ VALUES
 
 INSERT INTO tb_product("prod_name","prod_desc","prod_discount","prod_price","prod_stk","cat_id")
 VALUES
- ('Yogur', 'Yogur de 1Lt Gloria sabor fresa', 0, 12.0, 120,3),
- ('Escoba', 'Juego de Escoba Y Recogedor 2 en 1', 2, 18.0, 90,4),
- ('Licuadora', 'Licuadora Oster® con control de textura BLST3B Niquelada + Accesorios', 0, 899.0, 10,7),
- ('Escritorio', 'Organizador Escritorio Oficina Papelería con Cajones SJ-159', 20, 19.90, 20,12);
+ ('Yogurt Bebible GLORIA', 'Yogur de 1Lt Gloria sabor fresa', 0, 12.0, 210,3),
+ ('Escoba HUDE', 'Juego de Escoba Y Recogedor 2 en 1', 2, 18.0, 350,4),
+ ('Licuadora OSTER BLST3AR2G053 Xpert ', 'Licuadora Oster® con control de textura BLST3B Niquelada + Accesorios', 0, 899.0, 10,7),
+ ('Escritorio VIVA HOME Nilo', 'Organizador Escritorio Oficina Papelería con Cajones SJ-159', 20, 19.90, 400,12);
+ ('Blusa Hypnotic ', 'Mujer Manga Larga Delfin', 0, 110.90, 240,8);
+ ('Carrito Estante Organizador', ' Organizador de Oficina Papelería Almacenamiento Multiusos FH4', 2, 199.90, 310,12);
 
 
 CREATE OR REPLACE FUNCTION kardex_update_prodcut_stock()
