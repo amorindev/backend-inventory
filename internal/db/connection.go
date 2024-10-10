@@ -29,5 +29,4 @@ func DBConnection() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	//fmt.Println("Connected to postgresql ...!")
 }
