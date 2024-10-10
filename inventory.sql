@@ -58,16 +58,46 @@ CREATE TABLE tb_product_kardex (
     kar_id INTEGER REFERENCES tb_kardex(kar_id)
 )
 
+CREATE OR REPLACE FUNCTION kardex_update_prodcut_stock()
+RETURNS TRIGGER AS $$
+
+DECLARE kar_type VARCHAR(60);
+BEGIN
+
+    SELECT k.kar_type INTO kar_type
+    FROM tb_kardex AS k
+    WHERE k.kar_id = NEW.kar_id;
+    IF kar_type = 'ENTRADA' THEN
+        UPDATE tb_product
+        SET prod_stk = prod_stk + NEW.pro_kar_amount 
+        WHERE prod_id = NEW.prod_id;
+    ELSEIF kar_type = 'SALIDA' THEN
+        UPDATE tb_product
+        SET prod_stk = prod_stk - NEW.pro_kar_amount
+        WHERE prod_id = NEW.prod_id;
+    END IF;
+    RETURN NEW;
+END;
+
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_kardex_update_stock
+AFTER INSERT ON tb_product_kardex
+FOR EACH ROW
+EXECUTE FUNCTION kardex_update_prodcut_stock();
+
+
+
 INSERT INTO tb_user (user_email, user_pass) 
 VALUES
 ('calidad@gmail.com', 'Calidad2024')
 
--- First create user account
+-- First create user account,get id
 INSERT INTO tb_company (com_user_id, com_name, com_website, com_address, com_phone, com_email, com_logo)
 VALUES 
 (1, 'Limdes - Chimbote', 'https://www.limdes.com', 'Av. Avenida Industrial', '923456789', 'limbes@gmail.com', 'logo.png');
 
-
+-- first inset  company, get id
 INSERT INTO tb_provider (prov_name, prov_address, prov_email, prov_phone, com_user_id) VALUES
 ('Distribuciones Alimenticias S.A.', 'Calle Principal 123, Ciudad Centro', 'contacto@distribuciones.com', '555-0123', 1),
 ('Suministros de Oficina Ltda.', 'Avenida de la Libertad 456, Barrio Nuevo', 'info@suministros.com', '555-4567', 1),
@@ -105,40 +135,19 @@ VALUES
  ('Blusa Hypnotic ', 'Mujer Manga Larga Delfin', 0, 110.90, 240,8);
  ('Carrito Estante Organizador', ' Organizador de Oficina Papelería Almacenamiento Multiusos FH4', 2, 199.90, 310,12);
 
-
-CREATE OR REPLACE FUNCTION kardex_update_prodcut_stock()
-RETURNS TRIGGER AS $$
-
-DECLARE kar_type VARCHAR(60);
-BEGIN
-
-    SELECT k.kar_type INTO kar_type
-    FROM tb_kardex AS k
-    WHERE k.kar_id = NEW.kar_id;
-    IF kar_type = 'ENTRADA' THEN
-        UPDATE tb_product
-        SET prod_stk = prod_stk + NEW.pro_kar_amount 
-        WHERE prod_id = NEW.prod_id;
-    ELSEIF kar_type = 'SALIDA' THEN
-        UPDATE tb_product
-        SET prod_stk = prod_stk - NEW.pro_kar_amount
-        WHERE prod_id = NEW.prod_id;
-    END IF;
-    RETURN NEW;
-END;
-
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_kardex_update_stock
-AFTER INSERT ON tb_product_kardex
-FOR EACH ROW
-EXECUTE FUNCTION kardex_update_prodcut_stock();
+CREATE TABLE tb_kardex (
+    kar_id SERIAL PRIMARY KEY,
+    kar_desc VARCHAR(250) NOT NULL,
+    kar_type VARCHAR(60) NOT NULL CHECK (kar_type IN ('SALIDA', 'ENTRADA')),
+    kar_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+)
 
 
-SELECT 
-	k.kar_id, k.kar_desc, k.kar_type, k.kar_created_at,
-	pk.pro_kar_amount, p.prod_id, p.prod_name
-	FROM tb_kardex k
-	JOIN tb_product_kardex pk ON k.kar_id = pk.kar_id
-	JOIN tb_product p ON pk.prod_id = p.prod_id
-	ORDER BY k.kar_created_at DESC;
+INSERT INTO tb_kardex(kar_desc, kar_type)
+VALUES
+('Rebibir productos de Amacén en Arequipa', 'ENTRADA')
+-- insert kardex, get id
+INSERT INTO tb_product_kardex(pro_kar_amount,prod_id, kar_id)
+VALUES
+(20,2,1),
+(43,5,1);
