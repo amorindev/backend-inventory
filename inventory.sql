@@ -4,6 +4,17 @@ CREATE TABLE tb_user (
     user_pass VARCHAR(300) NOT NULL
 )
 
+CREATE TABLE tb_role (
+    role_id SERIAL PRIMARY KEY,
+    role_name VARCHAR(100) NOT NULL
+)
+
+CREATE TABLE tb_user_role (
+    userrole_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES tb_user(user_id),
+    role_id INTEGER REFERENCES tb_role(role_id)
+)
+
 CREATE TABLE tb_company(
     com_user_id INTEGER PRIMARY KEY REFERENCES tb_user(user_id),
     com_name VARCHAR(300) NOT NULL,
@@ -24,18 +35,18 @@ CREATE TABLE tb_provider(
 )
 
 CREATE TABLE tb_category (
-        cat_id SERIAL PRIMARY KEY,
-        cat_name VARCHAR(150) NOT NULL
+    cat_id SERIAL PRIMARY KEY,
+    cat_name VARCHAR(150) NOT NULL
 )
 
 CREATE TABLE tb_product (
-        prod_id SERIAL PRIMARY KEY,
-        prod_name VARCHAR(150) NOT NULL,
-        prod_desc TEXT NOT NULL,
-        prod_discount SMALLINT NOT NULL DEFAULT 0, -- 10%, 20%
-        prod_price NUMERIC(10, 2) NOT NULL,
-        prod_stk INT NOT NULL CHECK (prod_stk >= 0),
-        cat_id INTEGER REFERENCES tb_category (cat_id)
+    prod_id SERIAL PRIMARY KEY,
+    prod_name VARCHAR(150) NOT NULL,
+    prod_desc TEXT NOT NULL,
+    prod_discount SMALLINT NOT NULL DEFAULT 0, -- 10%, 20%
+    prod_price NUMERIC(10, 2) NOT NULL,
+    prod_stk INT NOT NULL CHECK (prod_stk >= 0),
+    cat_id INTEGER REFERENCES tb_category (cat_id)
 )
 
 CREATE TABLE tb_kardex (
@@ -112,36 +123,31 @@ INSERT INTO tb_provider (prov_name, prov_address, prov_email, prov_phone, com_us
 
 INSERT INTO tb_category ("cat_name")
 VALUES
-    ('TECNOLOGÍA'),
-    ('ALIMENTOS Y BEBIDAS'),
-    ('LACTEOS Y DERIVADOS'),
-    ('LIMPIEZA Y CUIDADO DEL HOGAR'),
-    ('HIGIENE Y CUIDADO PERSONAL'),
-    ('BEBES Y NIÑOS'),
-    ('ELECTRODOMÉSTICOS'),
-    ('ROPA Y CALZADO'),
-    ('MUEBLES Y DECORACIÓN'),
-    ('MASCOTAS'),
-    ('JUGUETERÍA'),
-    ('OFICINA Y PAPELERÍA');
+    ('LIMPIEZA DEL HOGAR'),
+    ('CUIDADO DE LA ROPA'),
+    ('DESINFECCIÓN'),
+    ('AROMATIZACIÓN Y AMBIENTACIÓN'),
+    ('CUIDADO DEL AUTOMÓVIL'),
+    ('PRODUCTOS ECOLÓGICOS'),
+    ('HERRAMIENTAS DE LIMPIEZA'),
+    ('CUIDADO DE MASCOTAS'),
+    ('PISOS Y SUPERFICIES'),
+    ('JARDÍN Y EXTERIORES');
 
 
-INSERT INTO tb_product("prod_name","prod_desc","prod_discount","prod_price","prod_stk","cat_id")
+
+INSERT INTO tb_product("prod_name", "prod_desc", "prod_discount", "prod_price", "prod_stk", "cat_id")
 VALUES
- ('Yogurt Bebible GLORIA', 'Yogur de 1Lt Gloria sabor fresa', 0, 12.0, 210,3),
- ('Escoba HUDE', 'Juego de Escoba Y Recogedor 2 en 1', 2, 18.0, 350,4),
- ('Licuadora OSTER BLST3AR2G053 Xpert ', 'Licuadora Oster® con control de textura BLST3B Niquelada + Accesorios', 0, 899.0, 10,7),
- ('Escritorio VIVA HOME Nilo', 'Organizador Escritorio Oficina Papelería con Cajones SJ-159', 20, 19.90, 400,12);
- ('Blusa Hypnotic ', 'Mujer Manga Larga Delfin', 0, 110.90, 240,8);
- ('Carrito Estante Organizador', ' Organizador de Oficina Papelería Almacenamiento Multiusos FH4', 2, 199.90, 310,12);
-
-CREATE TABLE tb_kardex (
-    kar_id SERIAL PRIMARY KEY,
-    kar_desc VARCHAR(250) NOT NULL,
-    kar_type VARCHAR(60) NOT NULL CHECK (kar_type IN ('SALIDA', 'ENTRADA')),
-    kar_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
-)
-
+    ('Limpiador Multiusos MR. CLEAN', 'Limpiador multiusos para todo tipo de superficies, botella de 1Lt', 0, 10.0, 200, 1),
+    ('Detergente ARIEL', 'Detergente en polvo de 1.5Kg para lavar ropa blanca y de color', 5, 15.0, 300, 2),
+    ('Desinfectante LYSOL', 'Desinfectante en aerosol para eliminación de gérmenes y bacterias', 10, 12.0, 150, 3),
+    ('Aromatizante Glade', 'Aromatizante en aerosol de fragancia lavanda para el hogar', 0, 8.5, 220, 4),
+    ('Limpiavidrios WINDEX', 'Limpiador de ventanas y superficies de cristal, 500ml', 0, 7.0, 180, 5),
+    ('Jabón ecológico ECOS', 'Jabón biodegradable para limpieza de superficies, 500ml', 3, 6.5, 100, 6),
+    ('Mopa Mágica', 'Mopa de microfibra con sistema de escurrido automático', 0, 25.0, 80, 7),
+    ('Shampoo para Mascotas PETSAFE', 'Shampoo desinfectante y aromatizante para mascotas, 500ml', 0, 18.0, 120, 8),
+    ('Desengrasante para Cocina EASY-OFF', 'Desengrasante potente para hornos y cocinas, 1Lt', 0, 14.5, 140, 9),
+    ('Limpiador de Pisos CIF', 'Limpiador especializado para pisos y superficies duras, 1Lt', 5, 9.5, 160, 10);
 
 INSERT INTO tb_kardex(kar_desc, kar_type)
 VALUES

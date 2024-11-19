@@ -1,7 +1,6 @@
 package product
 
 import (
-
 	"fmt"
 	"log"
 
